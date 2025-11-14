@@ -1,179 +1,156 @@
-// Service Worker for SZN Budget App
-// Provides offline functionality and caching
-
 const CACHE_NAME = 'szn-budget-v1';
-const PRECACHE_URLS = [
-  './',
-  'index.html',
-  'manifest.json',
-  'icons/icon-192x192.png',
-  'icons/icon-512x512.png'
+const BASE_PATH = '/SZN-budget';
+
+// List of URLs to cache - all paths relative to /SZN-budget/
+const urlsToCache = [
+  `${BASE_PATH}/`,
+  `${BASE_PATH}/index.html`,
+  `${BASE_PATH}/pwa-test.html`,
+  `${BASE_PATH}/manifest.json`,
+  `${BASE_PATH}/icons/icon-192x192.png`,
+  `${BASE_PATH}/icons/icon-512x512.png`
+  // Add more files as needed (CSS, JS, images, etc.)
 ];
 
-self.addEventListener('install', event => {
-  // Activate worker immediately
-  self.skipWaiting();
+// Install event - cache resources
+self.addEventListener('install', (event) => {
+  console.log('[Service Worker] Installing...');
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_URLS))
-  );
-});
-
-self.addEventListener('activate', event => {
-  // Become available to all pages
-  event.waitUntil(self.clients.claim());
-  // Optional: delete old caches if needed
-  event.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-      )
-    )
-  );
-});
-
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-  // Cache-first for precached assets, network fallback, then offline fallback
-  event.respondWith(
-    caches.match(event.request).then(cachedResponse => {
-      if (cachedResponse) return cachedResponse;
-      return fetch(event.request).then(networkResponse => {
-        // Cache successful GET responses for future use
-        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then(cache => {
-            cache.put(event.request, responseClone).catch(() => {});
-          });
-        }
-        return networkResponse;
-      }).catch(() => {
-        // Fallback to cached navigation or index.html when offline
-        return caches.match('./') || caches.match('index.html');
-      });
-    })
-  );
-});
-      .then(() => {
-        console.log('[Service Worker] Activated successfully');
-        return self.clients.claim();
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('[Service Worker] Caching app shell');
+        return cache.addAll(urlsToCache);
+      })
+      .catch((error) => {
+        console.error('[Service Worker] Cache failed:', error);
       })
   );
+  // Force the waiting service worker to become the active service worker
+  self.skipWaiting();
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+  console.log('[Service Worker] Activating...');
+  const cacheWhitelist = [CACHE_NAME];
+  
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('[Service Worker] Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+  
+  // Take control of all pages immediately
+  return self.clients.claim();
 });
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  const url = new URL(request.url);
-
-  // API requests - Network First strategy
-  if (url.pathname.startsWith('/api/')) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          // Clone the response before caching
-          const responseToCache = response.clone();
-          
-          caches.open(API_CACHE_NAME)
-            .then((cache) => {
-              cache.put(request, responseToCache);
-            });
-          
-          return response;
-        })
-        .catch(() => {
-          // If network fails, try cache
-          return caches.match(request)
-            .then((response) => {
-              if (response) {
-                console.log('[Service Worker] Serving API from cache:', request.url);
-                return response;
-              }
-              
-              // Return offline page or error
-              return new Response(
-                JSON.stringify({ 
-                  error: 'Offline - No cached data available',
-                  offline: true 
-                }),
-                { 
-                  status: 503,
-                  headers: { 'Content-Type': 'application/json' }
-                }
-              );
-            });
-        })
-    );
+  // Only handle requests within our scope
+  if (!event.request.url.startsWith(self.location.origin + BASE_PATH)) {
     return;
   }
 
-  // Static assets - Cache First strategy
   event.respondWith(
-    caches.match(request)
+    caches.match(event.request)
       .then((response) => {
+        // Cache hit - return response
         if (response) {
-          console.log('[Service Worker] Serving from cache:', request.url);
+          console.log('[Service Worker] Serving from cache:', event.request.url);
           return response;
         }
 
-        // Not in cache, fetch from network
-        return fetch(request)
-          .then((response) => {
-            // Don't cache non-successful responses
-            if (!response || response.status !== 200 || response.type === 'error') {
+        console.log('[Service Worker] Fetching from network:', event.request.url);
+        return fetch(event.request).then(
+          (response) => {
+            // Check if valid response
+            if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
 
-            // Clone the response before caching
+            // Clone the response
             const responseToCache = response.clone();
 
             caches.open(CACHE_NAME)
               .then((cache) => {
-                cache.put(request, responseToCache);
+                cache.put(event.request, responseToCache);
               });
 
             return response;
-          })
-          .catch((error) => {
-            console.error('[Service Worker] Fetch failed:', error);
-            
-            // Return offline page for navigation requests
-            if (request.mode === 'navigate') {
-              return caches.match('/index.html');
-            }
-            
-            throw error;
-          });
+          }
+        ).catch((error) => {
+          console.error('[Service Worker] Fetch failed:', error);
+          
+          // Return a custom offline page if available
+          return caches.match(`${BASE_PATH}/offline.html`)
+            .then((offlineResponse) => {
+              if (offlineResponse) {
+                return offlineResponse;
+              }
+              // Return a basic error response if no offline page
+              return new Response('Offline - No cached content available', {
+                status: 503,
+                statusText: 'Service Unavailable',
+                headers: new Headers({
+                  'Content-Type': 'text/plain'
+                })
+              });
+            });
+        });
       })
   );
 });
 
-// Background sync - sync data when connection is restored
+// Background sync for offline data (optional)
 self.addEventListener('sync', (event) => {
   console.log('[Service Worker] Background sync:', event.tag);
-  
   if (event.tag === 'sync-budget-data') {
     event.waitUntil(syncBudgetData());
   }
 });
 
-// Push notification
+async function syncBudgetData() {
+  // Implement your sync logic here
+  // This could sync budget data to your backend when connection is restored
+  console.log('[Service Worker] Syncing budget data...');
+  try {
+    // Example: fetch pending changes from IndexedDB and send to server
+    // const pendingChanges = await getPendingChanges();
+    // await fetch('/api/sync', { method: 'POST', body: JSON.stringify(pendingChanges) });
+    console.log('[Service Worker] Sync completed successfully');
+  } catch (error) {
+    console.error('[Service Worker] Sync failed:', error);
+    throw error; // Retry sync
+  }
+}
+
+// Push notification support (optional)
 self.addEventListener('push', (event) => {
   console.log('[Service Worker] Push notification received');
-  
   const options = {
-    body: event.data ? event.data.text() : 'New update available!',
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/icon-72x72.png',
-    vibrate: [200, 100, 200],
-    tag: 'szn-budget-notification',
+    body: event.data ? event.data.text() : 'New budget notification',
+    icon: `${BASE_PATH}/icons/icon-192x192.png`,
+    badge: `${BASE_PATH}/icons/badge-72x72.png`,
+    vibrate: [100, 50, 100],
+    data: {
+      dateOfArrival: Date.now(),
+      primaryKey: 1
+    },
     actions: [
       {
-        action: 'open',
-        title: 'Open App'
+        action: 'view',
+        title: 'View Budget'
       },
       {
-        action: 'close',
-        title: 'Close'
+        action: 'dismiss',
+        title: 'Dismiss'
       }
     ]
   };
@@ -183,65 +160,17 @@ self.addEventListener('push', (event) => {
   );
 });
 
-// Notification click
+// Notification click handler
 self.addEventListener('notificationclick', (event) => {
   console.log('[Service Worker] Notification clicked:', event.action);
-  
   event.notification.close();
 
-  if (event.action === 'open') {
-    event.waitUntil(
-      clients.openWindow('/')
-    );
-  }
+  event.waitUntil(
+    clients.openWindow(`${BASE_PATH}/`)
+  );
 });
 
-// Helper function to sync budget data
-async function syncBudgetData() {
-  try {
-    // Get pending data from IndexedDB or cache
-    const pendingData = await getPendingData();
-    
-    if (pendingData && pendingData.length > 0) {
-      console.log('[Service Worker] Syncing pending budget data...');
-      
-      // Send to API
-      const response = await fetch('/api/budget', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${await getAuthToken()}`
-        },
-        body: JSON.stringify(pendingData)
-      });
-
-      if (response.ok) {
-        console.log('[Service Worker] Budget data synced successfully');
-        await clearPendingData();
-      }
-    }
-  } catch (error) {
-    console.error('[Service Worker] Sync failed:', error);
-    throw error; // Retry sync
-  }
-}
-
-// Helper functions for data persistence
-async function getPendingData() {
-  // Implement IndexedDB retrieval
-  return null;
-}
-
-async function clearPendingData() {
-  // Implement IndexedDB clearing
-}
-
-async function getAuthToken() {
-  // Get token from cache or storage
-  return null;
-}
-
-// Message handler for communication with main app
+// Message handler for communication with the app
 self.addEventListener('message', (event) => {
   console.log('[Service Worker] Message received:', event.data);
   
@@ -251,8 +180,11 @@ self.addEventListener('message', (event) => {
   
   if (event.data && event.data.type === 'CACHE_URLS') {
     event.waitUntil(
-      caches.open(CACHE_NAME)
-        .then((cache) => cache.addAll(event.data.urls))
+      caches.open(CACHE_NAME).then((cache) => {
+        return cache.addAll(event.data.urls);
+      })
     );
   }
 });
+
+console.log('[Service Worker] Loaded and ready');

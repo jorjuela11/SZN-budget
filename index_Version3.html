@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#FCD34D" />
+  <meta name="description" content="A versatile budget app for every season of life" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+
+  <!-- iOS Specific -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SZN Budget">
+
+  <title>SZN Budget - PWA Ready</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background: linear-gradient(135deg, #FCD34D 0%, #FBBF24 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .logo h1 {
+      font-size: 72px;
+      font-weight: 900;
+      color: #000;
+      margin-bottom: 10px;
+    }
+    .logo p {
+      color: #6B7280;
+      font-size: 14px;
+    }
+    .status {
+      background: #F3F4F6;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .status-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #E5E7EB;
+    }
+    .status-item:last-child {
+      border-bottom: none;
+    }
+    .status-label {
+      font-weight: 600;
+      color: #374151;
+    }
+    .status-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .badge.success {
+      background: #D1FAE5;
+      color: #065F46;
+    }
+    .badge.error {
+      background: #FEE2E2;
+      color: #991B1B;
+    }
+    .badge.warning {
+      background: #FEF3C7;
+      color: #92400E;
+    }
+    .actions {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: #000;
+      color: #FCD34D;
+    }
+    .btn-primary:hover {
+      background: #1F2937;
+    }
+    .btn-secondary {
+      background: #F3F4F6;
+      color: #374151;
+    }
+    .btn-secondary:hover {
+      background: #E5E7EB;
+    }
+    .info {
+      margin-top: 20px;
+      padding: 16px;
+      background: #EEF2FF;
+      border-radius: 12px;
+      font-size: 14px;
+      color: #3730A3;
+    }
+    .info strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="logo">
+      <h1>SZN</h1>
+      <p>A versatile budget app for every season of life</p>
+    </div>
+
+    <div class="status">
+      <div class="status-item">
+        <span class="status-label">PWA Ready</span>
+        <span class="status-value">
+          <span id="pwa-status" class="badge warning">Checking...</span>
+        </span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Service Worker</span>
+        <span class="status-value">
+          <span id="sw-status" class="badge warning">Checking...</span>
+        </span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Manifest</span>
+        <span class="status-value">
+          <span id="manifest-status" class="badge warning">Checking...</span>
+        </span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">HTTPS</span>
+        <span class="status-value">
+          <span id="https-status" class="badge warning">Checking...</span>
+        </span>
+      </div>
+      <div class="status-item">
+        <span class="status-label">Installable</span>
+        <span class="status-value">
+          <span id="install-status" class="badge warning">Checking...</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="install-btn" class="btn-primary" style="display: none;">
+        📱 Install App
+      </button>
+      <button id="test-offline-btn" class="btn-secondary">
+        🔌 Test Offline Mode
+      </button>
+      <button id="cache-btn" class="btn-secondary">
+        💾 View Cache
+      </button>
+      <button id="unregister-btn" class="btn-secondary">
+        🔄 Unregister Service Worker
+      </button>
+    </div>
+
+    <div class="info">
+      <strong>🧪 PWA Testing Tool</strong>
+      This page helps you verify your PWA setup. Check that all status items show green checkmarks!
+    </div>
+  </div>
+
+  <script>
+    // Check PWA readiness
+    function checkPWAStatus() {
+      // Check HTTPS
+      const isHttps = window.location.protocol === 'https:' || window.location.hostname === 'localhost';
+      updateStatus('https-status', isHttps);
+
+      // Check Service Worker
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+          updateStatus('sw-status', registrations.length > 0);
+        });
+      } else {
+        updateStatus('sw-status', false);
+      }
+
+      // Check Manifest
+      fetch('manifest.json')
+        .then(response => {
+          updateStatus('manifest-status', response.ok);
+        })
+        .catch(() => {
+          updateStatus('manifest-status', false);
+        });
+
+      // Overall PWA status
+      setTimeout(() => {
+        const allGreen = document.querySelectorAll('.badge.success').length >= 3;
+        updateStatus('pwa-status', allGreen);
+      }, 1000);
+    }
+
+    function updateStatus(id, isSuccess) {
+      const element = document.getElementById(id);
+      element.className = 'badge ' + (isSuccess ? 'success' : 'error');
+      element.textContent = isSuccess ? '✓ Ready' : '✗ Not Ready';
+    }
+
+    // Install prompt
+    let deferredPrompt;
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('install-btn').style.display = 'block';
+      updateStatus('install-status', true);
+    });
+
+    document.getElementById('install-btn').addEventListener('click', async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response: ${outcome}`);
+        deferredPrompt = null;
+        document.getElementById('install-btn').style.display = 'none';
+      }
+    });
+
+    // Test offline mode
+    document.getElementById('test-offline-btn').addEventListener('click', () => {
+      alert('Open DevTools > Network tab > Select \"Offline\" to test offline functionality');
+    });
+
+    // View cache
+    document.getElementById('cache-btn').addEventListener('click', async () => {
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        console.log('Cache names:', cacheNames);
+
+        for (const name of cacheNames) {
+          const cache = await caches.open(name);
+          const requests = await cache.keys();
+          console.log(`Cache \"${name}\":`, requests.map(r => r.url));
+        }
+
+        alert('Cache contents logged to console (F12)');
+      } else {
+        alert('Cache API not available');
+      }
+    });
+
+    // Unregister service worker
+    document.getElementById('unregister-btn').addEventListener('click', async () => {
+      if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (const registration of registrations) {
+          await registration.unregister();
+        }
+        alert('Service worker unregistered! Refresh the page.');
+        location.reload();
+      }
+    });
+
+    // Check installed status
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      updateStatus('install-status', true);
+      document.getElementById('install-btn').style.display = 'none';
+    }
+
+    // Run checks
+    checkPWAStatus();
+
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(registration => {
+          console.log('Service Worker registered:', registration);
+          updateStatus('sw-status', true);
+        })
+        .catch(error => {
+          console.error('Service Worker registration failed:', error);
+          updateStatus('sw-status', false);
+        });
+    }
+  </script>
+</body>
+</html>

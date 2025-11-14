@@ -2,55 +2,57 @@
 // Provides offline functionality and caching
 
 const CACHE_NAME = 'szn-budget-v1';
-const API_CACHE_NAME = 'szn-budget-api-v1';
-
-// Assets to cache on install
-const STATIC_CACHE_URLS = [
-  '/',
-  '/index.html',
-  '/static/css/main.css',
-  '/static/js/main.js',
-  '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
+const PRECACHE_URLS = [
+  './',
+  'index.html',
+  'manifest.json',
+  'icons/icon-192x192.png',
+  'icons/icon-512x512.png'
 ];
 
-// Install event - cache static assets
-self.addEventListener('install', (event) => {
-  console.log('[Service Worker] Installing...');
-  
+self.addEventListener('install', event => {
+  // Activate worker immediately
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('[Service Worker] Caching static assets');
-        return cache.addAll(STATIC_CACHE_URLS);
-      })
-      .then(() => {
-        console.log('[Service Worker] Installed successfully');
-        return self.skipWaiting();
-      })
-      .catch((error) => {
-        console.error('[Service Worker] Install failed:', error);
-      })
+    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_URLS))
   );
 });
 
-// Activate event - clean up old caches
-self.addEventListener('activate', (event) => {
-  console.log('[Service Worker] Activating...');
-  
+self.addEventListener('activate', event => {
+  // Become available to all pages
+  event.waitUntil(self.clients.claim());
+  // Optional: delete old caches if needed
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
-        return Promise.all(
-          cacheNames.map((cacheName) => {
-            if (cacheName !== CACHE_NAME && cacheName !== API_CACHE_NAME) {
-              console.log('[Service Worker] Deleting old cache:', cacheName);
-              return caches.delete(cacheName);
-            }
-          })
-        );
-      })
+    caches.keys().then(keys =>
+      Promise.all(
+        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
+      )
+    )
+  );
+});
+
+self.addEventListener('fetch', event => {
+  if (event.request.method !== 'GET') return;
+  // Cache-first for precached assets, network fallback, then offline fallback
+  event.respondWith(
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) return cachedResponse;
+      return fetch(event.request).then(networkResponse => {
+        // Cache successful GET responses for future use
+        if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone).catch(() => {});
+          });
+        }
+        return networkResponse;
+      }).catch(() => {
+        // Fallback to cached navigation or index.html when offline
+        return caches.match('./') || caches.match('index.html');
+      });
+    })
+  );
+});
       .then(() => {
         console.log('[Service Worker] Activated successfully');
         return self.clients.claim();

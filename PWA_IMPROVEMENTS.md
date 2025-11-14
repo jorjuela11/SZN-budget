@@ -54,10 +54,11 @@ All existing functionality remains intact:
    - Manually trigger: `window.deferredPWAPrompt.prompt()`
 
 5. **Verify Offline Functionality**
+   - First, load the page while online to populate the cache
    - Open DevTools > Network
-   - Select "Offline" mode
+   - Select "Offline" mode  
    - Reload the page
-   - Confirm the app still loads from cache
+   - Confirm the app still loads from cache (if cache was populated)
 
 6. **Test All Buttons**
    - Click "Install App" (if shown)
@@ -73,10 +74,16 @@ All existing functionality remains intact:
 
 ## Technical Details
 
-- **Manifest Scope**: `/SZN-budget/`
-- **Service Worker Scope**: `/SZN-budget/`
+- **Manifest Scope**: `/SZN-budget/` (defined in manifest.json)
+- **Service Worker Registration**: `/SZN-budget/service-worker.js`
+- **Service Worker Scope**: Defaults to the location of the service worker file
 - **Cache Name**: `szn-budget-v1`
-- **Precached Resources**: index.html, manifest.json, icon files
+- **Precached Resources**: 
+  - `./` (root path)
+  - `index.html`
+  - `manifest.json`
+  - `icons/icon-192x192.png`
+  - `icons/icon-512x512.png`
 
 ## Future Improvements
 

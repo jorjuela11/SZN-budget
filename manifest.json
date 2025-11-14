@@ -1,21 +1,142 @@
 {
-  "name": "SZN",
-  "short_name": "SZN",
-  "icons": [
-    { "src": "/SZN-budget/icons/icon-48x48.png",   "sizes": "48x48",   "type": "image/png" },
-    { "src": "/SZN-budget/icons/icon-72x72.png",   "sizes": "72x72",   "type": "image/png" },
-    { "src": "/SZN-budget/icons/icon-96x96.png",   "sizes": "96x96",   "type": "image/png" },
-    { "src": "/SZN-budget/icons/icon-128x128.png", "sizes": "128x128", "type": "image/png" },
-    { "src": "/SZN-budget/icons/icon-144x144.png", "sizes": "144x144", "type": "image/png" },
-    { "src": "/SZN-budget/icons/icon-152x152.png", "sizes": "152x152", "type": "image/png" },
-    { "src": "/SZN-budget/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/SZN-budget/icons/icon-256x256.png", "sizes": "256x256", "type": "image/png" },
-    { "src": "/SZN-budget/icons/icon-384x384.png", "sizes": "384x384", "type": "image/png" },
-    { "src": "/SZN-budget/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ],
-  "start_url": "./",
+  "name": "SZN Budget - Seasonal Budget Planner",
+  "short_name": "SZN Budget",
+  "description": "A versatile budget app for every season of life. Track income, expenses, and financial goals seasonally.",
+  "start_url": "/SZN-budget/",
   "scope": "/SZN-budget/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000"
+  "orientation": "any",
+  "background_color": "#FCD34D",
+  "theme_color": "#FCD34D",
+  "categories": ["finance", "productivity", "business"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/SZN-budget/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/SZN-budget/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/SZN-budget/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/SZN-budget/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/SZN-budget/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/SZN-budget/icons/icon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/SZN-budget/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/SZN-budget/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/SZN-budget/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/SZN-budget/screenshots/mobile-login.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Secure login with Face ID or passcode"
+    },
+    {
+      "src": "/SZN-budget/screenshots/mobile-home.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Financial overview at a glance"
+    },
+    {
+      "src": "/SZN-budget/screenshots/tablet-home.png",
+      "sizes": "768x1024",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Beautiful tablet experience"
+    },
+    {
+      "src": "/SZN-budget/screenshots/desktop-home.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Full desktop view"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add Expense",
+      "short_name": "Add Expense",
+      "description": "Quickly add a new expense",
+      "url": "/SZN-budget/?action=add-expense",
+      "icons": [
+        {
+          "src": "/SZN-budget/icons/shortcut-expense.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "View Budget",
+      "short_name": "Budget",
+      "description": "View your monthly budget",
+      "url": "/SZN-budget/?tab=budget",
+      "icons": [
+        {
+          "src": "/SZN-budget/icons/shortcut-budget.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Seasonal Plan",
+      "short_name": "SZN Plan",
+      "description": "View your seasonal breakdown",
+      "url": "/SZN-budget/?tab=seasonal",
+      "icons": [
+        {
+          "src": "/SZN-budget/icons/shortcut-seasonal.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
 }

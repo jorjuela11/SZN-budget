@@ -5,22 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#FCD34D" />
   <meta name="description" content="A versatile budget app for every season of life" />
-
-  <!-- PWA Manifest -->
-
   <link rel="manifest" href="manifest.json" />
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
-  }
-</script>
-
-  <!-- iOS Specific -->
+  <link rel="apple-touch-icon" href="icons/icon-192x192.png" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SZN Budget">
-
   <title>SZN Budget - PWA Ready</title>
+</head>
 
   <style>
     * {

@@ -4,70 +4,70 @@
   "description": "A versatile budget app for every season of life",
   "icons": [
     {
-      "src": "/icons/icon-72x72.png",
+      "src": "icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-96x96.png",
+      "src": "icons/icon-96x96.png",
       "sizes": "96x96",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-128x128.png",
+      "src": "icons/icon-128x128.png",
       "sizes": "128x128",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-144x144.png",
+      "src": "icons/icon-144x144.png",
       "sizes": "144x144",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-152x152.png",
+      "src": "icons/icon-152x152.png",
       "sizes": "152x152",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-384x384.png",
+      "src": "icons/icon-384x384.png",
       "sizes": "384x384",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "theme_color": "#FCD34D",
   "background_color": "#FBBF24",
   "orientation": "portrait-primary",
-  "scope": "/",
+  "scope": "./",
   "categories": ["finance", "productivity", "lifestyle"],
   "screenshots": [
     {
-      "src": "/screenshots/home.png",
+      "src": "screenshots/home.png",
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide"
     },
     {
-      "src": "/screenshots/budget.png",
+      "src": "screenshots/budget.png",
       "sizes": "750x1334",
       "type": "image/png",
       "form_factor": "narrow"
@@ -78,10 +78,10 @@
       "name": "Add Income",
       "short_name": "Income",
       "description": "Quickly add new income",
-      "url": "/?action=add-income",
+      "url": "./?action=add-income",
       "icons": [
         {
-          "src": "/icons/income-shortcut.png",
+          "src": "icons/income-shortcut.png",
           "sizes": "192x192"
         }
       ]
@@ -90,10 +90,10 @@
       "name": "Add Expense",
       "short_name": "Expense",
       "description": "Quickly add new expense",
-      "url": "/?action=add-expense",
+      "url": "./?action=add-expense",
       "icons": [
         {
-          "src": "/icons/expense-shortcut.png",
+          "src": "icons/expense-shortcut.png",
           "sizes": "192x192"
         }
       ]
@@ -102,10 +102,10 @@
       "name": "View Budget",
       "short_name": "Budget",
       "description": "View your budget overview",
-      "url": "/?tab=budget",
+      "url": "./?tab=budget",
       "icons": [
         {
-          "src": "/icons/budget-shortcut.png",
+          "src": "icons/budget-shortcut.png",
           "sizes": "192x192"
         }
       ]

@@ -6,16 +6,6 @@
   <meta name="theme-color" content="#FCD34D" />
   <meta name="description" content="A versatile budget app for every season of life" />
   <link rel="manifest" href="manifest.json" />
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
-  </script>
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="SZN Budget">
-  <title>SZN Budget - PWA Ready</title>
-</head>
 
   <style>
     * {
@@ -139,6 +129,11 @@
       margin-bottom: 8px;
     }
   </style>
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="SZN Budget">
+  <title>SZN Budget - PWA Ready</title>
 </head>
 <body>
   <div class="container">
@@ -261,7 +256,7 @@
 
     // Test offline mode
     document.getElementById('test-offline-btn').addEventListener('click', () => {
-      alert('Open DevTools > Network tab > Select \"Offline\" to test offline functionality');
+      alert('Open DevTools > Network tab > Select "Offline" to test offline functionality');
     });
 
     // View cache
@@ -273,7 +268,7 @@
         for (const name of cacheNames) {
           const cache = await caches.open(name);
           const requests = await cache.keys();
-          console.log(`Cache \"${name}\":`, requests.map(r => r.url));
+          console.log(`Cache "${name}":`, requests.map(r => r.url));
         }
 
         alert('Cache contents logged to console (F12)');
@@ -315,6 +310,6 @@
           updateStatus('sw-status', false);
         });
     }
-  </script>b
+  </script>
 </body>
 </html>

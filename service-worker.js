@@ -1,3 +1,7 @@
+// SZN Budget App - Service Worker
+// Version 1.0.0
+// Configured for /SZN-budget/ subdirectory
+
 const CACHE_NAME = 'szn-budget-v1';
 const BASE_PATH = '/SZN-budget';
 

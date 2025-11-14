@@ -5,14 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#FCD34D" />
   <meta name="description" content="A versatile budget app for every season of life" />
-  <link rel="manifest" href="manifest.json" />
+  <link rel="manifest" href="/SZN-budget/manifest.json" />
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    /* (same CSS as before) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
       background: linear-gradient(135deg, #FCD34D 0%, #FBBF24 100%);
@@ -22,112 +19,27 @@
       justify-content: center;
       padding: 20px;
     }
-    .container {
-      max-width: 600px;
-      background: white;
-      border-radius: 24px;
-      padding: 40px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    }
-    .logo {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .logo h1 {
-      font-size: 72px;
-      font-weight: 900;
-      color: #000;
-      margin-bottom: 10px;
-    }
-    .logo p {
-      color: #6B7280;
-      font-size: 14px;
-    }
-    .status {
-      background: #F3F4F6;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .status-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #E5E7EB;
-    }
-    .status-item:last-child {
-      border-bottom: none;
-    }
-    .status-label {
-      font-weight: 600;
-      color: #374151;
-    }
-    .status-value {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .badge.success {
-      background: #D1FAE5;
-      color: #065F46;
-    }
-    .badge.error {
-      background: #FEE2E2;
-      color: #991B1B;
-    }
-    .badge.warning {
-      background: #FEF3C7;
-      color: #92400E;
-    }
-    .actions {
-      display: grid;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    button {
-      width: 100%;
-      padding: 16px;
-      border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-primary {
-      background: #000;
-      color: #FCD34D;
-    }
-    .btn-primary:hover {
-      background: #1F2937;
-    }
-    .btn-secondary {
-      background: #F3F4F6;
-      color: #374151;
-    }
-    .btn-secondary:hover {
-      background: #E5E7EB;
-    }
-    .info {
-      margin-top: 20px;
-      padding: 16px;
-      background: #EEF2FF;
-      border-radius: 12px;
-      font-size: 14px;
-      color: #3730A3;
-    }
-    .info strong {
-      display: block;
-      margin-bottom: 8px;
-    }
+    .container { max-width: 600px; background: white; border-radius: 24px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .logo { text-align: center; margin-bottom: 30px; }
+    .logo h1 { font-size: 72px; font-weight: 900; color: #000; margin-bottom: 10px; }
+    .logo p { color: #6B7280; font-size: 14px; }
+    .status { background: #F3F4F6; border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+    .status-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #E5E7EB; }
+    .status-item:last-child { border-bottom: none; }
+    .status-label { font-weight: 600; color: #374151; }
+    .status-value { display:flex; align-items:center; gap:8px; }
+    .badge { display:inline-block; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+    .badge.success { background:#D1FAE5; color:#065F46; }
+    .badge.error { background:#FEE2E2; color:#991B1B; }
+    .badge.warning { background:#FEF3C7; color:#92400E; }
+    .actions { display:grid; gap:12px; margin-top:20px; }
+    button { width:100%; padding:16px; border:none; border-radius:12px; font-size:16px; font-weight:600; cursor:pointer; transition:all .2s; }
+    .btn-primary { background:#000; color:#FCD34D; }
+    .btn-primary:hover { background:#1F2937; }
+    .btn-secondary { background:#F3F4F6; color:#374151; }
+    .btn-secondary:hover { background:#E5E7EB; }
+    .info { margin-top:20px; padding:16px; background:#EEF2FF; border-radius:12px; font-size:14px; color:#3730A3; }
+    .info strong { display:block; margin-bottom:8px; }
   </style>
 
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -197,13 +109,11 @@
   </div>
 
   <script>
-    // Check PWA readiness
+    // Check PWA readiness (use absolute manifest path)
     function checkPWAStatus() {
-      // Check HTTPS
       const isHttps = window.location.protocol === 'https:' || window.location.hostname === 'localhost';
       updateStatus('https-status', isHttps);
 
-      // Check Service Worker
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(registrations => {
           updateStatus('sw-status', registrations.length > 0);
@@ -212,16 +122,10 @@
         updateStatus('sw-status', false);
       }
 
-      // Check Manifest
-      fetch('manifest.json')
-        .then(response => {
-          updateStatus('manifest-status', response.ok);
-        })
-        .catch(() => {
-          updateStatus('manifest-status', false);
-        });
+      fetch('/SZN-budget/manifest.json')
+        .then(response => updateStatus('manifest-status', response.ok))
+        .catch(() => updateStatus('manifest-status', false));
 
-      // Overall PWA status
       setTimeout(() => {
         const allGreen = document.querySelectorAll('.badge.success').length >= 3;
         updateStatus('pwa-status', allGreen);
@@ -234,50 +138,45 @@
       element.textContent = isSuccess ? '✓ Ready' : '✗ Not Ready';
     }
 
-    // Install prompt
-    let deferredPrompt;
-
+    // Expose beforeinstallprompt for debugging/testing
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
-      deferredPrompt = e;
+      // Save globally so you can trigger the prompt from the Console:
+      window.deferredPWAPrompt = e;
       document.getElementById('install-btn').style.display = 'block';
       updateStatus('install-status', true);
+      console.log('beforeinstallprompt saved to window.deferredPWAPrompt');
     });
 
     document.getElementById('install-btn').addEventListener('click', async () => {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
+      if (window.deferredPWAPrompt) {
+        window.deferredPWAPrompt.prompt();
+        const { outcome } = await window.deferredPWAPrompt.userChoice;
         console.log(`User response: ${outcome}`);
-        deferredPrompt = null;
+        window.deferredPWAPrompt = null;
         document.getElementById('install-btn').style.display = 'none';
       }
     });
 
-    // Test offline mode
     document.getElementById('test-offline-btn').addEventListener('click', () => {
       alert('Open DevTools > Network tab > Select "Offline" to test offline functionality');
     });
 
-    // View cache
     document.getElementById('cache-btn').addEventListener('click', async () => {
       if ('caches' in window) {
         const cacheNames = await caches.keys();
         console.log('Cache names:', cacheNames);
-
         for (const name of cacheNames) {
           const cache = await caches.open(name);
           const requests = await cache.keys();
           console.log(`Cache "${name}":`, requests.map(r => r.url));
         }
-
         alert('Cache contents logged to console (F12)');
       } else {
         alert('Cache API not available');
       }
     });
 
-    // Unregister service worker
     document.getElementById('unregister-btn').addEventListener('click', async () => {
       if ('serviceWorker' in navigator) {
         const registrations = await navigator.serviceWorker.getRegistrations();
@@ -289,7 +188,6 @@
       }
     });
 
-    // Check installed status
     if (window.matchMedia('(display-mode: standalone)').matches) {
       updateStatus('install-status', true);
       document.getElementById('install-btn').style.display = 'none';
@@ -298,17 +196,19 @@
     // Run checks
     checkPWAStatus();
 
-    // Register service worker
+    // Register service worker after load using absolute path so scope is correct
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(registration => {
-          console.log('Service Worker registered:', registration);
-          updateStatus('sw-status', true);
-        })
-        .catch(error => {
-          console.error('Service Worker registration failed:', error);
-          updateStatus('sw-status', false);
-        });
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/SZN-budget/service-worker.js')
+          .then(registration => {
+            console.log('Service Worker registered:', registration);
+            updateStatus('sw-status', true);
+          })
+          .catch(error => {
+            console.error('Service Worker registration failed:', error);
+            updateStatus('sw-status', false);
+          });
+      });
     }
   </script>
 </body>

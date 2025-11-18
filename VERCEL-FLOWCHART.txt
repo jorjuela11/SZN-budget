@@ -1,0 +1,382 @@
+┌──────────────────────────────────────────────────────────────┐
+│                                                              │
+│           🚀 VERCEL DEPLOYMENT FLOWCHART 🚀                  │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPTION 1: SIMPLE VERSION (5 minutes)
+────────────────────────────────────
+
+┌─────────────┐
+│ 1. Extract  │
+│   Files     │ unzip szn-budget-app.zip
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 2. Add Your │
+│   Code      │ Copy React code → App.jsx
+└──────┬──────┘ Add localStorage hooks
+       │
+       ▼
+┌─────────────┐
+│ 3. Install  │
+│   Deps      │ npm install
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 4. Test     │
+│   Locally   │ npm run dev
+└──────┬──────┘ Open http://localhost:5173
+       │
+       ▼
+┌─────────────┐
+│ 5. Build    │
+│             │ npm run build
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 6. Deploy   │
+│             │ vercel
+└──────┬──────┘ Answer prompts
+       │
+       ▼
+┌─────────────┐
+│ 7. LIVE! 🎉 │
+│             │ https://your-app.vercel.app
+└─────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPTION 2: FIREBASE VERSION (30 minutes)
+────────────────────────────────────────
+
+┌─────────────┐
+│ 1. Extract  │
+│   Files     │ unzip szn-budget-app-firebase.zip
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 2. Firebase │
+│   Console   │ Create project
+└──────┬──────┘ Enable Auth + Firestore
+       │        Copy config
+       ▼
+┌─────────────┐
+│ 3. Config   │
+│   Firebase  │ Paste config → firebase.js
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 4. Add Your │
+│   Code      │ Copy React code → App.jsx
+└──────┬──────┘ Add Firebase snippets
+       │
+       ▼
+┌─────────────┐
+│ 5. Install  │
+│   Deps      │ npm install
+└──────┬──────┘ (includes Firebase)
+       │
+       ▼
+┌─────────────┐
+│ 6. Test     │
+│   Locally   │ npm run dev
+└──────┬──────┘ Test auth + sync
+       │
+       ▼
+┌─────────────┐
+│ 7. Env Vars │
+│   (Optional)│ Create .env file
+└──────┬──────┘ Add to Vercel dashboard
+       │
+       ▼
+┌─────────────┐
+│ 8. Build    │
+│             │ npm run build
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ 9. Deploy   │
+│             │ vercel --prod
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│10. LIVE! 🎉 │
+│             │ https://your-app.vercel.app
+└─────────────┘ + Firebase backend!
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+UPDATE WORKFLOW
+───────────────
+
+┌─────────────┐
+│ Make Changes│
+│ to Code     │ Edit App.jsx or other files
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Test Local  │
+│             │ npm run dev
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Build       │
+│             │ npm run build
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Deploy      │
+│             │ vercel --prod
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ UPDATED! 🎉 │
+│             │ Changes live in ~2 minutes
+└─────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VERCEL CLI COMMANDS
+───────────────────
+
+First Time:
+  vercel                    # Deploy to preview
+  
+Production:
+  vercel --prod             # Deploy to production
+  
+Management:
+  vercel ls                 # List deployments
+  vercel logs               # View logs
+  vercel domains            # Manage domains
+  vercel rm                 # Remove deployment
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+WHAT VERCEL DOES AUTOMATICALLY
+──────────────────────────────
+
+📦 Upload Files       → Sends your code to Vercel
+🔨 Install Deps       → Runs npm install
+🏗️  Build             → Runs npm run build
+🌐 Deploy             → Publishes to CDN
+🔒 HTTPS              → Automatic SSL certificate
+🚀 CDN                → Global edge network
+📊 Optimize           → Compresses & minifies
+✅ Done!              → Your app is live!
+
+⏱️  Total: 1-2 minutes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ENVIRONMENT VARIABLES SETUP
+───────────────────────────
+
+For Firebase Security:
+
+1. Local (.env file):
+   ┌────────────────────────────────────────┐
+   │ VITE_FIREBASE_API_KEY=AIzaSyC...      │
+   │ VITE_FIREBASE_AUTH_DOMAIN=...         │
+   │ VITE_FIREBASE_PROJECT_ID=...          │
+   │ ...                                    │
+   └────────────────────────────────────────┘
+
+2. Vercel Dashboard:
+   Settings → Environment Variables → Add
+   
+3. Redeploy:
+   Deployments → Redeploy
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CUSTOM DOMAIN SETUP
+───────────────────
+
+1. Buy domain ($10-15/year):
+   ┌────────────────────────────────────────┐
+   │ mybudgetapp.com                        │
+   └────────────────────────────────────────┘
+
+2. Add to Vercel:
+   Settings → Domains → Add Domain
+
+3. Configure DNS:
+   Option A: Point nameservers to Vercel
+   Option B: Add A record: 76.76.21.21
+
+4. Wait for DNS propagation (5 min - 24 hrs)
+
+5. Done! Your app at yourdomain.com 🎉
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TROUBLESHOOTING FLOWCHART
+─────────────────────────
+
+Build Failed?
+  │
+  ├─→ npm run build locally
+  │   Works? → Check Vercel logs
+  │   Fails? → Fix errors, try again
+  │
+  └─→ Clear cache:
+      rm -rf node_modules
+      npm install
+      npm run build
+
+Firebase Not Working?
+  │
+  ├─→ Environment variables set?
+  │   No → Add to Vercel dashboard
+  │   Yes → Continue
+  │
+  ├─→ Domain whitelisted in Firebase?
+  │   No → Add your-app.vercel.app
+  │   Yes → Continue
+  │
+  └─→ Config correct in firebase.js?
+      Check API keys
+
+Changes Not Showing?
+  │
+  ├─→ Clear browser cache (Ctrl+Shift+R)
+  │
+  ├─→ Check deployment status
+  │   vercel ls
+  │
+  └─→ Wait 1 minute for CDN update
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SUCCESS CHECKLIST
+─────────────────
+
+After deployment, verify:
+
+□ App loads at Vercel URL
+□ Login works
+□ Can add/edit data
+□ Data persists after refresh
+□ Firebase auth works (if using)
+□ Dark mode works
+□ Mobile responsive
+□ PWA installable
+□ All features functional
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DEPLOYMENT TIMELINE
+───────────────────
+
+Simple Version:
+├── Extract files: 30 seconds
+├── Add code: 2 minutes
+├── npm install: 30 seconds
+├── Test locally: 1 minute
+├── Build: 30 seconds
+└── Deploy: 1 minute
+    TOTAL: ~5-7 minutes
+
+Firebase Version:
+├── Extract files: 30 seconds
+├── Firebase setup: 10 minutes
+├── Configure: 3 minutes
+├── Add code: 3 minutes
+├── npm install: 1 minute
+├── Test locally: 2 minutes
+├── Env variables: 3 minutes
+├── Build: 30 seconds
+└── Deploy: 2 minutes
+    TOTAL: ~25-30 minutes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+COST BREAKDOWN
+──────────────
+
+Hosting (Vercel):
+  ✅ FREE forever
+  • 100GB bandwidth/month
+  • Unlimited sites
+  • Auto HTTPS & CDN
+  • No credit card required
+
+Firebase (if using):
+  ✅ FREE tier:
+  • 50K users/month
+  • 1GB storage
+  • 50K reads/day
+  • 20K writes/day
+  
+  Only pay if you exceed limits
+
+Custom Domain (optional):
+  💰 $10-15/year
+  
+TOTAL: $0-15/year
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MONITORING & ANALYTICS
+──────────────────────
+
+Vercel Dashboard Shows:
+├── 📊 Deployments (success/failed)
+├── 📈 Analytics (visitors, page views)
+├── ⚡ Performance (Web Vitals)
+├── 🔍 Logs (errors, warnings)
+├── 🌐 Domains (status, SSL)
+└── ⚙️  Settings (env vars, team)
+
+Access: https://vercel.com/dashboard
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+QUICK REFERENCE
+───────────────
+
+Essential Commands:
+  npm install           # Install dependencies
+  npm run dev          # Run locally (port 5173)
+  npm run build        # Build for production
+  npm run preview      # Preview prod build
+  vercel               # Deploy to preview
+  vercel --prod        # Deploy to production
+  vercel ls            # List deployments
+  vercel logs          # View logs
+
+URLs:
+  Local:     http://localhost:5173
+  Preview:   https://project-hash.vercel.app
+  Prod:      https://your-project.vercel.app
+  Custom:    https://yourdomain.com
+
+Docs:
+  Vercel:    https://vercel.com/docs
+  Vite:      https://vitejs.dev
+  Firebase:  https://firebase.google.com/docs
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 YOU'RE READY TO DEPLOY!
+
+Follow the flowchart above and your app will be live in minutes!
+
+Full guide: VERCEL-DEPLOYMENT.md
+
+└──────────────────────────────────────────────────────────────┘

@@ -195,3 +195,4 @@ Want to add a backend later?
 - **Pocketbase** (self-hosted)
 
 But for now, localStorage works great! 🎯
+

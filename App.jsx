@@ -89,7 +89,6 @@ const [showAllAvailableChallenges, setShowAllAvailableChallenges] = useState(fal
 // ============================================
 // LOCALSTORAGE PERSISTENCE - NEW CODE
 // ============================================
-
 // Load data from localStorage on mount
 useEffect(() => {
 const savedData = localStorage.getItem('sznBudgetAppData');
@@ -120,7 +119,6 @@ console.error('Error loading saved data:', error);
 }
 }
 }, []);
-
 // Save data to localStorage whenever it changes
 useEffect(() => {
 const dataToSave = {
@@ -148,13 +146,11 @@ localStorage.setItem('sznBudgetAppData', JSON.stringify(dataToSave));
 savingsAccounts, activeChallenges, journals, receipts, wordOfYear, 
 weekCounts, lockedSeasons, lockedWeeks, darkMode, isPremium, 
 profileImage, selectedYear]);
-
 // ============================================
 // END LOCALSTORAGE CODE
 // ============================================
-
 // All your existing functions remain the same...
-// (I'm keeping the rest of your code exactly as is)
+// (I'm keeping the rest of your code exactly the same)
 
 const addGrocery = () => {
 if (!newGrocery.name || !newGrocery.quantity) return;
@@ -169,22 +165,18 @@ setGroceries([...groceries, grocery]);
 setNewGrocery({ name: '', quantity: '', category: '' });
 setShowAddGrocery(false);
 };
-
 const deleteGrocery = (id) => {
 setGroceries(groceries.filter(item => item.id !== id));
 };
-
 const toggleGroceryPurchased = (id) => {
 setGroceries(groceries.map(item => 
 item.id === id ? { ...item, purchased: !item.purchased } : item
 ));
 };
-
 const startEditGrocery = (grocery) => {
 setEditingGroceryId(grocery.id);
 setEditGroceryForm({ name: grocery.name, quantity: grocery.quantity, category: grocery.category });
 };
-
 const saveEditGrocery = () => {
 setGroceries(groceries.map(item =>
 item.id === editingGroceryId 
@@ -193,15 +185,12 @@ item.id === editingGroceryId
 ));
 setEditingGroceryId(null);
 };
-
 const totalIncome = income.reduce((sum, item) => sum + item.amount, 0);
 const totalExpenses = expenses.reduce((sum, item) => sum + item.amount, 0);
 const balance = totalIncome - totalExpenses;
-
 const handleFaceIdLogin = () => {
 setIsLoggedIn(true);
 };
-
 const handlePasscodeSubmit = () => {
 if (passcode === savedPasscode) {
 setIsLoggedIn(true);
@@ -213,43 +202,36 @@ setPasscodeError(true);
 setPasscode('');
 }
 };
-
 const handlePasscodeKeyPress = (e) => {
 if (e.key === 'Enter') {
 handlePasscodeSubmit();
 }
 };
-
 const handlePremiumFeature = (feature) => {
 if (!isPremium) {
 setShowPremiumModal(true);
 }
 return isPremium;
 };
-
 const activatePremium = () => {
 setIsPremium(true);
 setShowPremiumModal(false);
 };
-
 const seasons = [
 { name: 'SZN1', months: ['January', 'February', 'March'] },
 { name: 'SZN2', months: ['April', 'May', 'June'] },
 { name: 'SZN3', months: ['July', 'August', 'September'] },
 { name: 'SZN4', months: ['October', 'November', 'December'] }
 ];
-
 const getWeekKey = (season, month, week) => `${season}-${month}-${week}`;
 const getWeekData = (season, month, week) => {
 const key = getWeekKey(season, month, week);
 return weeklyData[key] || { checkDate: '', assignedTo: '', expenses: [], incomeItems: [], savings: 0 };
 };
-
 const updateWeekData = (season, month, week, data) => {
 const key = getWeekKey(season, month, week);
 setWeeklyData({...weeklyData, [key]: data});
 };
-
 const addExpenseToWeek = (season, month, week) => {
 const weekData = getWeekData(season, month, week);
 updateWeekData(season, month, week, {
@@ -257,7 +239,6 @@ updateWeekData(season, month, week, {
 expenses: [...weekData.expenses, { id: Date.now(), expenseId: '', dueDate: '', paid: false }]
 });
 };
-
 const addIncomeToWeek = (season, month, week) => {
 const weekData = getWeekData(season, month, week);
 updateWeekData(season, month, week, {
@@ -265,29 +246,24 @@ updateWeekData(season, month, week, {
 incomeItems: [...weekData.incomeItems, { id: Date.now(), incomeId: '' }]
 });
 };
-
 const updateWeekExpense = (season, month, week, expenseId, field, value) => {
 const weekData = getWeekData(season, month, week);
 const updatedExpenses = weekData.expenses.map(exp => exp.id === expenseId ? {...exp, [field]: value} : exp);
 updateWeekData(season, month, week, {...weekData, expenses: updatedExpenses});
 };
-
 const updateWeekIncome = (season, month, week, incomeItemId, field, value) => {
 const weekData = getWeekData(season, month, week);
 const updatedIncome = weekData.incomeItems.map(inc => inc.id === incomeItemId ? {...inc, [field]: value} : inc);
 updateWeekData(season, month, week, {...weekData, incomeItems: updatedIncome});
 };
-
 const deleteWeekExpense = (season, month, week, expenseId) => {
 const weekData = getWeekData(season, month, week);
 updateWeekData(season, month, week, {...weekData, expenses: weekData.expenses.filter(exp => exp.id !== expenseId)});
 };
-
 const deleteWeekIncome = (season, month, week, incomeItemId) => {
 const weekData = getWeekData(season, month, week);
 updateWeekData(season, month, week, {...weekData, incomeItems: weekData.incomeItems.filter(inc => inc.id !== incomeItemId)});
 };
-
 const calculateWeekTotal = (season, month, week) => {
 const weekData = getWeekData(season, month, week);
 const expenseTotal = weekData.expenses.reduce((sum, exp) => {
@@ -301,14 +277,11 @@ return sum + (incomeItem ? incomeItem.amount : 0);
 const savingsAmount = parseFloat(weekData.savings) || 0;
 return incomeTotal - expenseTotal - savingsAmount;
 };
-
 const calculateSeasonalTotals = (seasonName) => {
 const season = seasons.find(s => s.name === seasonName);
-if (!season) return { income: 0, expenses: 0, balance: 0 };
-
+if (!season) return { income: 0, expenses: 0, balance: 0 };  
 let totalIncome = 0;
 let totalExpenses = 0;
-
 season.months.forEach(month => {
 [1, 2, 3, 4].forEach(week => {
 const weekData = getWeekData(seasonName, month, week);
@@ -324,20 +297,16 @@ if (expense) totalExpenses += expense.amount;
 });
 });
 });
-
 return {
 income: totalIncome,
 expenses: totalExpenses,
 balance: totalIncome - totalExpenses
 };
 };
-
 const calculateSeasonalSavings = (seasonName) => {
 const season = seasons.find(s => s.name === seasonName);
 if (!season) return 0;
-
 let totalSavings = 0;
-
 season.months.forEach(month => {
 const weekCount = getWeekCount(seasonName, month);
 for (let week = 1; week <= weekCount; week++) {
@@ -345,56 +314,45 @@ const weekData = getWeekData(seasonName, month, week);
 totalSavings += parseFloat(weekData.savings) || 0;
 }
 });
-
 return totalSavings;
 };
-
 const toggleMonth = (month) => setExpandedMonths({...expandedMonths, [month]: !expandedMonths[month]});
 const toggleSeasonLock = (season) => setLockedSeasons({...lockedSeasons, [season]: !lockedSeasons[season]});
-
 const getWeekCountKey = (season, month) => `${season}-${month}`;
 const getWeekCount = (season, month) => {
 const key = getWeekCountKey(season, month);
 return weekCounts[key] || 4;
 };
-
 const addWeekToMonth = (season, month) => {
 const key = getWeekCountKey(season, month);
 const currentCount = getWeekCount(season, month);
 setWeekCounts({...weekCounts, [key]: currentCount + 1});
 };
-
 const getWeekLockKey = (season, month, week) => `${season}-${month}-${week}`;
 const toggleWeekLock = (season, month, week) => {
 const key = getWeekLockKey(season, month, week);
 setLockedWeeks({...lockedWeeks, [key]: !lockedWeeks[key]});
 };
-
 const toggleWeekCollapse = (season, month, week) => {
 const key = getWeekLockKey(season, month, week);
-setCollapsedWeeks({...collapsedWeeks, [key]: !collapsedWeeks[key]});
+setcollapsedWeeks({...collapsedWeeks, [key]: !collapsedWeeks[key]});
 };
-
 const addReceipt = (file) => {
 setReceipts([...receipts, { id: Date.now(), name: file.name, date: new Date().toISOString().split('T')[0], season: selectedSeason }]);
 };
-
 const deleteReceipt = (id) => setReceipts(receipts.filter(r => r.id !== id));
 const getJournal = (season) => journals[season] || { goals: [], accomplishments: [] };
-
 const addJournalEntry = (season, field, entry) => {
 if (!entry.trim()) return;
 const currentJournal = getJournal(season);
 const updatedEntries = [...currentJournal[field], entry];
 setJournals({ ...journals, [season]: { ...currentJournal, [field]: updatedEntries } });
 };
-
 const deleteJournalEntry = (season, field, index) => {
 const currentJournal = getJournal(season);
 const updatedEntries = currentJournal[field].filter((_, i) => i !== index);
 setJournals({ ...journals, [season]: { ...currentJournal, [field]: updatedEntries } });
 };
-
 const addSavingsAccount = () => {
 if (!newAccount.bankName || !newAccount.accountName) return;
 const account = {
@@ -409,20 +367,16 @@ setSavingsAccounts([...savingsAccounts, account]);
 setNewAccount({ bankName: '', accountName: '', accountNumber: '', balance: '' });
 setShowAddAccount(false);
 };
-
 const removeSavingsAccount = (id) => {
 setSavingsAccounts(savingsAccounts.filter(acc => acc.id !== id));
 };
-
 const maskAccountNumber = (number) => {
 if (!number || number.length < 4) return '****';
 return '****' + number.slice(-4);
 };
-
 const startChallenge = (challengeId) => {
 const challenge = financialChallenges.find(c => c.id === challengeId);
 if (!challenge) return;
-
 const activeChallenge = {
 ...challenge,
 startDate: new Date().toLocaleDateString(),
@@ -431,37 +385,30 @@ status: 'active'
 };
 setActiveChallenges([...activeChallenges, activeChallenge]);
 };
-
 const updateChallengeProgress = (challengeId, newProgress) => {
 setActiveChallenges(activeChallenges.map(ch =>
 ch.id === challengeId ? { ...ch, progress: Math.min(newProgress, ch.goal) } : ch
 ));
 };
-
 const completeChallenge = (challengeId) => {
 setActiveChallenges(activeChallenges.map(ch =>
 ch.id === challengeId ? { ...ch, status: 'completed', progress: ch.goal } : ch
 ));
 };
-
 const removeChallenge = (challengeId) => {
 setActiveChallenges(activeChallenges.filter(ch => ch.id !== challengeId));
 };
-
 const seasonalIncome = totalIncome * 3;
 const seasonalExpenses = totalExpenses * 3;
 const seasonalBalance = seasonalIncome - seasonalExpenses;
-
 const saveProfile = () => {
 setProfile(profileForm);
 setIsEditingProfile(false);
 };
-
 const cancelProfileEdit = () => {
 setProfileForm({...profile});
 setIsEditingProfile(false);
 };
-
 const handleProfileImageUpload = (file) => {
 if (file && file.type.startsWith('image/')) {
 const reader = new FileReader();
@@ -471,7 +418,6 @@ setProfileImage(e.target.result);
 reader.readAsDataURL(file);
 }
 };
-
 const addCollaborator = () => {
 if (!newCollaborator.name || !newCollaborator.email) return;
 const collaborator = {
@@ -486,24 +432,20 @@ setCollaborators([...collaborators, collaborator]);
 setNewCollaborator({ name: '', email: '', role: 'Editor' });
 setShowAddCollaborator(false);
 };
-
 const removeCollaborator = (id) => {
 setCollaborators(collaborators.filter(c => c.id !== id));
 if (currentUser?.id === id) {
 setCurrentUser(null);
 }
 };
-
 const switchUser = (collaborator) => {
 setCurrentUser(collaborator);
 };
-
 const startEdit = (item, type) => {
 setEditingId(item.id);
 setEditingType(type);
 setEditForm({ name: item.name, amount: item.amount, category: item.category });
 };
-
 const saveEdit = () => {
 if (editingType === 'income') {
 setIncome(income.map(item => item.id === editingId ? { ...item, name: editForm.name, amount: parseFloat(editForm.amount) || 0, category: editForm.category } : item));
@@ -513,7 +455,6 @@ setExpenses(expenses.map(item => item.id === editingId ? { ...item, name: editFo
 setEditingId(null);
 setEditingType(null);
 };
-
 const deleteItem = (id, type) => {
 if (type === 'income') {
 setIncome(income.filter(item => item.id !== id));
@@ -521,7 +462,6 @@ setIncome(income.filter(item => item.id !== id));
 setExpenses(expenses.filter(item => item.id !== id));
 }
 };
-
 const addItem = (type) => {
 if (!newItem.name || !newItem.amount) return;
 const item = {
@@ -544,16 +484,14 @@ const expensesByCategory = expenses.reduce((acc, expense) => {
 acc[expense.category] = (acc[expense.category] || 0) + expense.amount;
 return acc;
 }, {});
-
 const selectedSeasonData = seasons.find(s => s.name === selectedSeason);
-
 // Return your entire JSX here - keeping it exactly the same
 // (Your entire return statement from line ~800 to the end)
 return (
-<div className={`min-h-screen pb-24 ${darkMode ? 'bg-black' : 'bg-white'}`}> 
+<div className={`min-h-screen pb-24 ${darkMode ? 'bg-black' : 'bg-white'}`}>  
 {/* All your existing JSX code goes here - I'm keeping it exactly as you had it */}
 {/* This is just placeholder - copy your entire return statement here */}
-<div className="p-8 text-center">
+<div className="p-8 text-center">  
 <h1 className="text-4xl font-bold mb-4">SZN Budget App</h1>
 <p className="text-gray-600">Your complete app code goes here...</p>
 </div>
